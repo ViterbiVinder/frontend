@@ -10,6 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Link from  'next/link';
 
+import { API } from '../constants'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -33,75 +35,26 @@ function getSteps() {
   return ['Provide account information', 'Spice up your profile'];
 }
 
-// TODO: AVATAR
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return (<React.Fragment><TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="user"
-            label="Username"
-            name="user"
-            autoComplete="user"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email"
-            name="email"
-            autoComplete="email"
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="confpassword"
-            label="Confirm password"
-            type="password"
-            id="confpassword"
-            autoComplete="current-password"
-          /></React.Fragment>);
-    case 1:
-      return (<React.Fragment><TextField
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            name="bio"
-            label="Your biography"
-            type="text"
-            id="bio"
-          /></React.Fragment>); 
-    default:
-      return 'Unknown step';
-  }
-}
-
 export default function VerticalLinearStepper() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
+
+  const [username, setUsername] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [bio, setBio] = React.useState("");
+  const [avatar, setAvatar] = React.useState("");
+  const [name, setName] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
   const steps = getSteps();
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setActiveStep((prevActiveStep) => {
+      if (prevActiveStep == steps.length - 1) {
+        signUp();
+      }
+      return prevActiveStep + 1
+    });
   };
 
   const handleBack = () => {
@@ -111,6 +64,100 @@ export default function VerticalLinearStepper() {
   const handleReset = () => {
     setActiveStep(0);
   };
+
+  // TODO: AVATAR
+  const getStepContent = (step) => {
+    switch (step) {
+      case 0:
+        return (<React.Fragment><TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="user"
+              label="Name"
+              name="name"
+              autoComplete="name"
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+              autoFocus
+            /><TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="user"
+              label="Username"
+              name="user"
+              autoComplete="user"
+              onChange={(e) => setUsername(e.target.value)}
+              value={username}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email"
+              name="email"
+              autoComplete="email"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+            /></React.Fragment>);
+      case 1:
+        return (<React.Fragment><TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              name="bio"
+              label="Your biography"
+              onChange={(e) => setBio(e.target.value)}
+              value={bio}
+              type="text"
+              id="bio"
+            /></React.Fragment>); 
+      default:
+        return 'Unknown step';
+    }
+  }
+
+
+  const signUp = () => {
+    console.log(JSON.stringify({"hey": "hi"}))
+
+    const body = {
+      name,
+      username,
+      email,
+      bio,
+      avatar,
+      password
+    }
+
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    };
+    fetch('/api/signup', requestOptions)
+        .then(response => response.json())
+        .then(data => console.log(data));
+
+  }
 
   return (
     <div className={classes.root}>
@@ -146,11 +193,9 @@ export default function VerticalLinearStepper() {
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
           <Typography>Woot! You're all setup and ready to go! 🚀</Typography>
-            <Link href="/signin">
             <Button className={classes.button}>
               Sign in
             </Button>
-          </Link>
         </Paper>
       )}
     </div>

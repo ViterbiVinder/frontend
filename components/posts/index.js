@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-import Stepper from './stepper';
+import Post from './post';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -22,35 +22,39 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.primary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
 }));
 
-export default function SignUp() {
+export default function SignIn() {
   const classes = useStyles();
+
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const signIn = () => {
+    const body = {
+      username,
+      password
+    }
+
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    };
+    fetch('/api/signin', requestOptions)
+        .then(response => response.json())
+        .then(data => console.log(data));
+
+    localStorage.setItem("vinder-auth", JSON.stringify(true));
+  }
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon color="secondary"/>
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
-        <form className={classes.form} noValidate>
-          <Stepper />
-        </form>
+        {[1, 2, 3].map(() => { 
+          return <Post />
+        })}
       </div>
     </Container>
   );

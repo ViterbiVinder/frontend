@@ -5,10 +5,9 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../components/theme';
 import Drawer from '../components/drawer';
+import withAuth from '../utils/withAuth';
 
-
-
-export default class MyApp extends App {
+class MyApp extends App {
   componentDidMount() {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
@@ -18,8 +17,8 @@ export default class MyApp extends App {
   }
 
   render() {
-    const { Component, pageProps } = this.props;
-
+    const { Component, pageProps, isAuthenticated } = this.props;
+    console.log("isAuthenticated? " + isAuthenticated)
     return (
       <React.Fragment>
         <Head>
@@ -28,10 +27,13 @@ export default class MyApp extends App {
         </Head>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Drawer />
+          <Drawer isAuthenticated={isAuthenticated} />
           <Component {...pageProps} />
         </ThemeProvider>
       </React.Fragment>
     );
   }
 }
+
+
+export default withAuth(MyApp)

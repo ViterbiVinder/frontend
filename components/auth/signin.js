@@ -36,6 +36,27 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const classes = useStyles();
 
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const signIn = () => {
+    const body = {
+      username,
+      password
+    }
+
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    };
+    fetch('/api/signin', requestOptions)
+        .then(response => response.json())
+        .then(data => console.log(data));
+
+    localStorage.setItem("vinder-auth", JSON.stringify(true));
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -57,6 +78,8 @@ export default function SignIn() {
             name="user"
             autoComplete="user"
             autoFocus
+            value={username}
+            onChange={(e) => { setUsername(e.target.value) }}
           />
           <TextField
             variant="outlined"
@@ -68,6 +91,8 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={password}
+            onChange={(e) => { setPassword(e.target.value) }}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -79,6 +104,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={signIn}
           >
             Sign In
           </Button>

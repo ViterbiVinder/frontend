@@ -19,6 +19,8 @@ import NoteIcon from '@material-ui/icons/Note';
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
+import Link from  'next/link';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -54,9 +56,19 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function ResponsiveDrawer() {
-  const dummyCategories = ['Posts', 'Tags', 'Profile', 'Sign out']
-  const dummyIcons = [<NoteIcon />, <span style={{alignContent: 'bottom', textAlign: 'center', fontSize: '1.5rem', paddingLeft: 3}}>#</span>, <PersonIcon />, <ExitToAppIcon />]
+function ResponsiveDrawer({ isAuthenticated }) {
+  let categories, links, icons;
+  if (isAuthenticated) {
+    categories = ['Posts', 'Tags', 'Profile', 'Sign out']
+    links = ['/posts', '/tags', '/profile', '/signout']
+    icons = [<NoteIcon />, <span style={{alignContent: 'bottom', textAlign: 'center', fontSize: '1.5rem', paddingLeft: 3}}>#</span>, <PersonIcon />, <ExitToAppIcon />]
+  } else {
+    categories = ['Posts', 'Tags', 'Sign in']
+    links = ['/posts', '/tags', '/signin']
+    icons = [<NoteIcon />, <span style={{alignContent: 'bottom', textAlign: 'center', fontSize: '1.5rem', paddingLeft: 3}}>#</span>, <PersonIcon />]
+  }
+
+  console.log("isAuthenticated?2 " + isAuthenticated, categories)
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -68,11 +80,11 @@ function ResponsiveDrawer() {
   const drawer = (
     <div>
       <List>
-        {dummyCategories.map((text, index) => (
-          <ListItem style={{color: "white"}} button key={text}>
-            <ListItemIcon style={{color: "#FFCC00"}}>{dummyIcons[index]}</ListItemIcon>
+        {categories.map((text, index) => (
+          <Link href={links[index]}><ListItem style={{color: "white"}} button key={text}>
+            <ListItemIcon style={{color: "#FFCC00"}}>{icons[index]}</ListItemIcon>
             <ListItemText primary={text} />
-          </ListItem>
+          </ListItem></Link>
         ))}
       </List>
     </div>
