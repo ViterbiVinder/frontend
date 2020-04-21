@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(vinderTheme.palette.background.paper, 0.15),
+
 
         marginLeft: 0,
 
@@ -49,6 +49,8 @@ const useStyles = makeStyles((theme) => ({
     },
     inputRoot: {
         color: 'white',
+
+        width: '100%',
     },
     inputInput: {
         // padding: theme.spacing(1, 1, 1, 0),
