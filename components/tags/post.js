@@ -1,4 +1,5 @@
-// Cite: https://codesandbox.io/s/c3x43?file=/demo.js
+// Cite: [1] https://codesandbox.io/s/c3x43?file=/demo.js
+// [2] https://codesandbox.io/s/8vqhk?file=/demo.js:816-892
 
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,6 +10,10 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Container from "@material-ui/core/Container";
+import Chip from "@material-ui/core/Chip";
+import Avatar from "@material-ui/core/Avatar";
+import vinderTheme from "../theme";
+
 
 const useStyles = makeStyles({
     root: {
@@ -17,12 +22,7 @@ const useStyles = makeStyles({
 
     },
 
-    paper: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
 
-    },
 
 });
 
@@ -42,7 +42,7 @@ export default function Post() {
                     </Typography>
 
                     <Typography variant="body2"  component="p" color="inherit">
-                        Tags
+                        <Chip avatar={<Avatar>U</Avatar>} label="User" />
                     </Typography>
                 </CardContent>
             </CardActionArea>
