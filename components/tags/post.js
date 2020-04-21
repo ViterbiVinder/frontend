@@ -37,16 +37,16 @@ export default function Post() {
                     <Typography gutterBottom variant="h5" component="h2" color="inherit">
                         Post Title
                     </Typography>
-                    <Typography variant="body2"  component="p" color="inherit">
+                    <Typography variant="body1"  component="p" color="inherit">
                         Post content
+                    </Typography>
+
+                    <Typography variant="body2"  component="p" color="inherit">
+                        Tags
                     </Typography>
                 </CardContent>
             </CardActionArea>
-            <CardActions>
-                <Button size="small" color="inherit">
-                    Comment
-                </Button>
-            </CardActions>
+
         </Card>
         </Container>
     );
