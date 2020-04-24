@@ -23,9 +23,6 @@ const useStyles = makeStyles(theme => ({
   header: {
     backgroundColor: grey[300]
   },
-  heart: {
-    color: red[900]
-  },
   tags: {
     marginLeft: "auto",
   },
