@@ -4,24 +4,34 @@ import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
+import Container from "@material-ui/core/Container";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import Button from "@material-ui/core/Button";
+import grey from '@material-ui/core/colors/grey';
+import vinderTheme from "../theme";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    maxWidth: 500,
+    width: '100%',
     border: "1px solid black",
+    marginBottom: 100,
+    backgroundColor: grey[200]
+  },
+  header: {
+    backgroundColor: grey[300]
+  },
+  heart: {
+    color: red[900]
   },
   tags: {
-    marginLeft: "auto"
+    marginLeft: "auto",
   },
   avatar: {
-    backgroundColor: red[500]
+    backgroundColor: red[900]
   }
 }));
 
@@ -34,8 +44,9 @@ export default function PostCard() {
   };
 
   return (
+    <Container component="main" maxWidth="xs">
     <Card className={classes.root}>
-      <CardHeader
+      <CardHeader className={classes.header} 
         avatar={<Avatar aria-label="user" className={classes.avatar} />}
         title="Full Name"
         subheader="Timestamp Posted"
@@ -46,7 +57,7 @@ export default function PostCard() {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton className={classes.heart} aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>
         <CardContent className={classes.tags}>
@@ -55,5 +66,6 @@ export default function PostCard() {
         </CardContent>
       </CardActions>
     </Card>
+    </Container>
   );
 }
