@@ -6,7 +6,6 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Container from "@material-ui/core/Container";
 import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -18,7 +17,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     border: "1px solid black",
-    marginBottom: 100,
+    marginBottom: 40,
     backgroundColor: grey[200]
   },
   header: {
@@ -56,9 +55,6 @@ export default function PostCard() {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton className={classes.heart} aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
         <CardContent className={classes.tags}>
           <Button>#CSCI104</Button>
           <Button>#CSCI201</Button>
