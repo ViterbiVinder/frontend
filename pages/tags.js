@@ -1,11 +1,11 @@
 import React from 'react';
 import SearchBar from '../components/tags/searchbar'
-import Post from "../components/tags/post";
+import Posts from "../components/posts/post";
 import SimpleNavigation from "../components/posts/navbar"
 
 
 const TagsPage = () => {
-    return <> <SearchBar/>  <Post/> </>
+    return <> <SearchBar/>  <Posts/> </>
 }
 
 export default TagsPage;

@@ -9,7 +9,7 @@ import RestoreIcon from '@material-ui/icons/Restore';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Container from "@material-ui/core/Container";
-import vinderTheme from "../theme"
+import vinderTheme from "../theme";
 import PersonIcon from '@material-ui/icons/Person';
 
 const useStyles = makeStyles({
