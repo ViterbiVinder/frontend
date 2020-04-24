@@ -38,7 +38,6 @@ export default function SimpleNavigation() {
             showLabels
             className={classes.root}
         >
-            <BottomNavigationAction label="Top" icon={<FavoriteIcon />} />
             <BottomNavigationAction label="Latest" icon={<RestoreIcon  />} />
             <BottomNavigationAction label="People" icon={<PersonIcon />} />
         </BottomNavigation>

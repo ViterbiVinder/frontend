@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Tags() {
+export default function SearchBar() {
     const classes = useStyles();
 
     return (
