@@ -44,7 +44,6 @@ export default function PostCard() {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
     <Card className={classes.root}>
       <CardHeader className={classes.header} 
         avatar={<Avatar aria-label="user" className={classes.avatar} />}
@@ -66,6 +65,5 @@ export default function PostCard() {
         </CardContent>
       </CardActions>
     </Card>
-    </Container>
   );
 }
