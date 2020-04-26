@@ -1,2 +1,2 @@
-export const API = "https://8d673bce.ngrok.io/VinderServer/";
-export const DEPLOYMENT = "https://temp.mleiter.now.sh/"
+export const API = "http://174.138.59.149:8080/VinderServer/";
+export const DEPLOYMENT = "https://vinder.now.sh/";

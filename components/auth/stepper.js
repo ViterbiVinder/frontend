@@ -1,38 +1,38 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Link from  'next/link';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Stepper from "@material-ui/core/Stepper";
+import Step from "@material-ui/core/Step";
+import StepLabel from "@material-ui/core/StepLabel";
+import StepContent from "@material-ui/core/StepContent";
+import Button from "@material-ui/core/Button";
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import Link from "next/link";
 
-import { API } from '../constants'
+import { API } from "../constants";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    width: "100%",
   },
   button: {
     marginTop: theme.spacing(1),
     marginRight: theme.spacing(1),
     background: theme.palette.primary.main,
-    color: theme.palette.secondary.main
+    color: theme.palette.secondary.main,
   },
   actionsContainer: {
     marginBottom: theme.spacing(2),
   },
   resetContainer: {
     padding: theme.spacing(3),
-    background: 'transparent'
+    background: "transparent",
   },
 }));
 
 function getSteps() {
-  return ['Provide account information', 'Spice up your profile'];
+  return ["Provide account information", "Spice up your profile"];
 }
 
 export default function VerticalLinearStepper() {
@@ -58,7 +58,7 @@ export default function VerticalLinearStepper() {
       if (prevActiveStep == steps.length - 1) {
         signUp();
       }
-      return prevActiveStep + 1
+      return prevActiveStep + 1;
     });
   };
 
@@ -74,7 +74,9 @@ export default function VerticalLinearStepper() {
   const getStepContent = (step) => {
     switch (step) {
       case 0:
-        return (<React.Fragment><TextField
+        return (
+          <React.Fragment>
+            <TextField
               variant="outlined"
               margin="normal"
               required
@@ -86,7 +88,8 @@ export default function VerticalLinearStepper() {
               onChange={(e) => setName(e.target.value)}
               value={name}
               autoFocus
-            /><TextField
+            />
+            <TextField
               variant="outlined"
               margin="normal"
               required
@@ -123,9 +126,13 @@ export default function VerticalLinearStepper() {
               autoComplete="current-password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
-            /></React.Fragment>);
+            />
+          </React.Fragment>
+        );
       case 1:
-        return (<React.Fragment><TextField
+        return (
+          <React.Fragment>
+            <TextField
               variant="outlined"
               margin="normal"
               fullWidth
@@ -135,29 +142,42 @@ export default function VerticalLinearStepper() {
               value={bio}
               type="text"
               id="bio"
-            /></React.Fragment>); 
+            />
+          </React.Fragment>
+        );
       default:
-        return 'Unknown step';
+        return "Unknown step";
     }
-  }
+  };
 
   const invalidFirstFields = () => {
-    if (name.length < 2 || password.length < 2 || email.length < 2 || username.length < 2) {
+    if (
+      name.length < 2 ||
+      password.length < 2 ||
+      email.length < 2 ||
+      username.length < 2
+    ) {
       setError("All fields must be at least 2 characters.");
       return true;
     } else {
-      return false
+      return false;
     }
-  }
+  };
 
   const signUp = () => {
-
-    if (email.indexOf("@") || email.length < 2 || email.length > 64) {
+    if (email.indexOf("@") < 0 || email.length < 2 || email.length > 64) {
       setError("Invalid email.");
+      return;
     }
 
-    if (name.length < 2 || password.length < 2 || bio.length < 2 || username.length < 2) {
+    if (
+      name.length < 2 ||
+      password.length < 2 ||
+      bio.length < 2 ||
+      username.length < 2
+    ) {
       setError("All fields must be at least 2 characters.");
+      return;
     }
 
     const body = {
@@ -166,35 +186,41 @@ export default function VerticalLinearStepper() {
       email,
       bio,
       avatar,
-      password
-    }
+      password,
+    };
 
     const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
     };
 
     try {
-      fetch('/api/signup', requestOptions)
-          .then(response => response.json())
-          .then(data => {
-            if (data.body.Error) {
-              setError(data.body.error)
-            } else {
-              setError("")
-            }
-          });
+      fetch("/api/signup", requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          if (data.body.Error) {
+            setError(data.body.error);
+            return;
+          } else {
+            setError("");
+            return;
+          }
+        });
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-
-  }
+  };
 
   return (
     <div className={classes.root}>
       {error}
-      <Stepper style={{background: "transparent"}} activeStep={activeStep} orientation="vertical">
+      <Stepper
+        style={{ background: "transparent" }}
+        activeStep={activeStep}
+        orientation="vertical"
+      >
         {steps.map((label, index) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
@@ -215,7 +241,7 @@ export default function VerticalLinearStepper() {
                     onClick={handleNext}
                     className={classes.button}
                   >
-                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                    {activeStep === steps.length - 1 ? "Finish" : "Next"}
                   </Button>
                 </div>
               </div>
@@ -225,12 +251,14 @@ export default function VerticalLinearStepper() {
       </Stepper>
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
-          <Typography>{error === "" && 'Woot! You\'re all setup and ready to go! 🚀'}</Typography>
-            <Link to="/signin">
-              <Button className={classes.button}>
-                Sign in
-              </Button>
+          <Typography>
+            {error === "" && "Woot! You're all setup and ready to go! 🚀"}
+          </Typography>
+          {!error && (
+            <Link href="/signin">
+              <Button className={classes.button}>Sign in</Button>
             </Link>
+          )}
         </Paper>
       )}
     </div>

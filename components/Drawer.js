@@ -1,35 +1,37 @@
-import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import MenuIcon from '@material-ui/icons/Menu';
-import CloseIcon from '@material-ui/icons/Close';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import vinderTheme from '../components/theme';
-import CreateIcon from '@material-ui/icons/Create';
+import React from "react";
+import AppBar from "@material-ui/core/AppBar";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Drawer from "@material-ui/core/Drawer";
+import Hidden from "@material-ui/core/Hidden";
+import IconButton from "@material-ui/core/IconButton";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import MenuIcon from "@material-ui/icons/Menu";
+import CloseIcon from "@material-ui/icons/Close";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import vinderTheme from "../components/theme";
+import CreateIcon from "@material-ui/icons/Create";
 
-import NoteIcon from '@material-ui/icons/Note';
-import PersonIcon from '@material-ui/icons/Person';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import NoteIcon from "@material-ui/icons/Note";
+import PersonIcon from "@material-ui/icons/Person";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
-import Link from  'next/link';
+import Link from "next/link";
+
+import NewPost from "./newpost";
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
+    display: "flex",
   },
   drawer: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
       flexShrink: 0,
     },
@@ -39,20 +41,20 @@ const useStyles = makeStyles(theme => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
     },
   },
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
   },
   closeMenuButton: {
-    marginRight: 'auto',
+    marginRight: "auto",
     marginLeft: 0,
   },
 }));
@@ -60,13 +62,40 @@ const useStyles = makeStyles(theme => ({
 function ResponsiveDrawer({ isAuthenticated }) {
   let categories, links, icons;
   if (isAuthenticated) {
-    categories = ['Posts', 'Tags', 'Profile', 'Sign out']
-    links = ['/posts', '/tags', '/profile', '/signout']
-    icons = [<NoteIcon />, <span style={{alignContent: 'bottom', textAlign: 'center', fontSize: '1.5rem', paddingLeft: 3}}>#</span>, <PersonIcon />, <ExitToAppIcon />]
+    categories = ["Posts", "Tags", "Profile", "Sign out"];
+    links = ["/posts", "/tags", "/profile", "/signout"];
+    icons = [
+      <NoteIcon />,
+      <span
+        style={{
+          alignContent: "bottom",
+          textAlign: "center",
+          fontSize: "1.5rem",
+          paddingLeft: 3,
+        }}
+      >
+        #
+      </span>,
+      <PersonIcon />,
+      <ExitToAppIcon />,
+    ];
   } else {
-    categories = ['Posts', 'Tags', 'Sign in']
-    links = ['/posts', '/tags', '/signin']
-    icons = [<NoteIcon />, <span style={{alignContent: 'bottom', textAlign: 'center', fontSize: '1.5rem', paddingLeft: 3}}>#</span>, <PersonIcon />]
+    categories = ["Posts", "Tags", "Sign in"];
+    links = ["/posts", "/tags", "/signin"];
+    icons = [
+      <NoteIcon />,
+      <span
+        style={{
+          alignContent: "bottom",
+          textAlign: "center",
+          fontSize: "1.5rem",
+          paddingLeft: 3,
+        }}
+      >
+        #
+      </span>,
+      <PersonIcon />,
+    ];
   }
 
   const classes = useStyles();
@@ -74,22 +103,30 @@ function ResponsiveDrawer({ isAuthenticated }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   function handleDrawerToggle() {
-    setMobileOpen(!mobileOpen)
+    setMobileOpen(!mobileOpen);
   }
 
   const drawer = (
     <div>
       <List>
         {categories.map((text, index) => (
-          <Link href={links[index]}><ListItem style={{color: "white"}} button key={text}>
-            <ListItemIcon style={{color: "#FFCC00"}}>{icons[index]}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem></Link>
+          <Link href={links[index]}>
+            <ListItem style={{ color: "white" }} button key={text}>
+              <ListItemIcon style={{ color: "#FFCC00" }}>
+                {icons[index]}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          </Link>
         ))}
-        {isAuthenticated && <Link href={'/post'}><ListItem style={{color: "white"}} button>
-            <ListItemIcon style={{color: "#FFCC00"}}><CreateIcon /></ListItemIcon>
-            <ListItemText primary="New post" />
-          </ListItem></Link>}
+        {isAuthenticated && (
+          <ListItem style={{ color: "white" }} button>
+            <ListItemIcon style={{ color: "#FFCC00" }}>
+              <CreateIcon />
+            </ListItemIcon>
+            <NewPost />
+          </ListItem>
+        )}
       </List>
     </div>
   );
@@ -108,18 +145,18 @@ function ResponsiveDrawer({ isAuthenticated }) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap style={{color: "#FFCC00"}}>
+          <Typography variant="h6" noWrap style={{ color: "#FFCC00" }}>
             Vinder
           </Typography>
         </Toolbar>
       </AppBar>
-      
+
       <nav className={classes.drawer}>
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
           <Drawer
             variant="temporary"
-            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+            anchor={theme.direction === "rtl" ? "right" : "left"}
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
@@ -129,12 +166,17 @@ function ResponsiveDrawer({ isAuthenticated }) {
               keepMounted: true, // Better open performance on mobile.
             }}
           >
-            <IconButton onClick={handleDrawerToggle} className={classes.closeMenuButton} color="secondary">
-              <CloseIcon/>
+            <IconButton
+              onClick={handleDrawerToggle}
+              className={classes.closeMenuButton}
+              color="secondary"
+            >
+              <CloseIcon />
             </IconButton>
             {drawer}
           </Drawer>
-        </Hidden><Hidden xsDown implementation="css">
+        </Hidden>
+        <Hidden xsDown implementation="css">
           <Drawer
             className={classes.drawer}
             variant="permanent"
@@ -144,7 +186,7 @@ function ResponsiveDrawer({ isAuthenticated }) {
           >
             <div className={classes.toolbar} />
             {drawer}
-          </Drawer>  
+          </Drawer>
         </Hidden>
       </nav>
       <div className={classes.content}>
@@ -153,6 +195,5 @@ function ResponsiveDrawer({ isAuthenticated }) {
     </div>
   );
 }
-
 
 export default ResponsiveDrawer;

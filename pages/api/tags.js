@@ -4,14 +4,9 @@ import axios from "axios";
 module.exports = async (req, res) => {
   const requestOptions = {
     method: "GET",
-    url:
-      API + `Auth?username=${req.body.username}&password=${req.body.password}`,
+    url: API + `Tags?name=${req.query.name}`,
     headers: { "Content-Type": "application/json" },
   };
-
-  console.log(
-    API + `Auth?username=${req.body.username}&password=${req.body.password}`
-  );
 
   await axios(requestOptions).then((response) =>
     res.json({
