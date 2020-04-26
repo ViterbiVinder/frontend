@@ -46,10 +46,15 @@ export default function VerticalLinearStepper() {
   const [name, setName] = React.useState("");
   const [password, setPassword] = React.useState("");
 
+  const [error, setError] = React.useState("");
+
   const steps = getSteps();
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => {
+      if (invalidFirstFields()) {
+        return prevActiveStep;
+      }
       if (prevActiveStep == steps.length - 1) {
         signUp();
       }
@@ -101,6 +106,7 @@ export default function VerticalLinearStepper() {
               id="email"
               label="Email"
               name="email"
+              type="email"
               autoComplete="email"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
@@ -135,9 +141,24 @@ export default function VerticalLinearStepper() {
     }
   }
 
+  const invalidFirstFields = () => {
+    if (name.length < 2 || password.length < 2 || email.length < 2 || username.length < 2) {
+      setError("All fields must be at least 2 characters.");
+      return true;
+    } else {
+      return false
+    }
+  }
 
   const signUp = () => {
-    console.log(JSON.stringify({"hey": "hi"}))
+
+    if (email.indexOf("@") || email.length < 2 || email.length > 64) {
+      setError("Invalid email.");
+    }
+
+    if (name.length < 2 || password.length < 2 || bio.length < 2 || username.length < 2) {
+      setError("All fields must be at least 2 characters.");
+    }
 
     const body = {
       name,
@@ -153,14 +174,26 @@ export default function VerticalLinearStepper() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
     };
-    fetch('/api/signup', requestOptions)
-        .then(response => response.json())
-        .then(data => console.log(data));
+
+    try {
+      fetch('/api/signup', requestOptions)
+          .then(response => response.json())
+          .then(data => {
+            if (data.body.Error) {
+              setError(data.body.error)
+            } else {
+              setError("")
+            }
+          });
+    } catch (e) {
+      console.log(e)
+    }
 
   }
 
   return (
     <div className={classes.root}>
+      {error}
       <Stepper style={{background: "transparent"}} activeStep={activeStep} orientation="vertical">
         {steps.map((label, index) => (
           <Step key={label}>
@@ -192,10 +225,12 @@ export default function VerticalLinearStepper() {
       </Stepper>
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
-          <Typography>Woot! You're all setup and ready to go! 🚀</Typography>
-            <Button className={classes.button}>
-              Sign in
-            </Button>
+          <Typography>{error === "" && 'Woot! You\'re all setup and ready to go! 🚀'}</Typography>
+            <Link to="/signin">
+              <Button className={classes.button}>
+                Sign in
+              </Button>
+            </Link>
         </Paper>
       )}
     </div>

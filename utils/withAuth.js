@@ -7,7 +7,9 @@ export default function (WrappedComponent) {
     constructor() {
       super()
       this.state = {
-        isAuthenticated: false
+        isAuthenticated: false,
+        username: "",
+        name: ""
       }
     }
 
@@ -23,7 +25,11 @@ export default function (WrappedComponent) {
       const { isAuthenticated } = this.state;
 
       if (isAuthenticated != JSON.parse(localStorage.getItem("vinder-auth"))) {
-        this.setState({ isAuthenticated: JSON.parse(localStorage.getItem("vinder-auth")) == true ? true : false })
+        this.setState({
+          isAuthenticated: JSON.parse(localStorage.getItem("vinder-auth")),
+          username: JSON.parse(localStorage.getItem("vinder-username")),
+          name: JSON.parse(localStorage.getItem("vinder-name"))
+        })
       }
     }
 

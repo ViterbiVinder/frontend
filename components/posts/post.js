@@ -15,6 +15,7 @@ import Chip from "@material-ui/core/Chip";
 import Avatar from "@material-ui/core/Avatar";
 import grey from '@material-ui/core/colors/grey';
 import vinderTheme from "../theme";
+import Link from 'next/link'
 
 
 const useStyles = makeStyles(theme => ({
@@ -36,27 +37,27 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Post() {
+export default function Post({name = 'Name', date = "Today", text = "temp text",
+  tags = ["#CSCI104", "#CSCI201"]
+ }) {
     const classes = useStyles();
 
     return (
         <Container component="main" maxWidth="xs">
         <Card className={classes.root}>
-
             <CardHeader className={classes.header} 
         avatar={<Avatar aria-label="user" className={classes.avatar} />}
-        title="Full Name"
-        subheader="Timestamp Posted"
+        title={<Link href={`/profile/${name}`}>name</Link>}
+        subheader={date}
       />
-                <CardContent>
+        <CardContent>
         <Typography component="p">
-          This is filler text for a post that a user has made.
+          {text}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
         <CardContent className={classes.tags}>
-          <Button>#CSCI104</Button>
-          <Button>#CSCI201</Button>
+          {tags.map((e) => <Button key={e}> {e} </Button>)}
         </CardContent>
       </CardActions>
 

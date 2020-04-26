@@ -14,6 +14,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import vinderTheme from '../components/theme';
+import CreateIcon from '@material-ui/icons/Create';
 
 import NoteIcon from '@material-ui/icons/Note';
 import PersonIcon from '@material-ui/icons/Person';
@@ -68,7 +69,6 @@ function ResponsiveDrawer({ isAuthenticated }) {
     icons = [<NoteIcon />, <span style={{alignContent: 'bottom', textAlign: 'center', fontSize: '1.5rem', paddingLeft: 3}}>#</span>, <PersonIcon />]
   }
 
-  console.log("isAuthenticated?2 " + isAuthenticated, categories)
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -86,6 +86,10 @@ function ResponsiveDrawer({ isAuthenticated }) {
             <ListItemText primary={text} />
           </ListItem></Link>
         ))}
+        {isAuthenticated && <Link href={'/post'}><ListItem style={{color: "white"}} button>
+            <ListItemIcon style={{color: "#FFCC00"}}><CreateIcon /></ListItemIcon>
+            <ListItemText primary="New post" />
+          </ListItem></Link>}
       </List>
     </div>
   );

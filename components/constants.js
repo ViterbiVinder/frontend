@@ -1,1 +1,2 @@
-export const API = "https://webhook.site/61d7ee41-da08-4017-a81d-c1f1b0777c07";
+export const API = "https://8d673bce.ngrok.io/VinderServer/";
+export const DEPLOYMENT = "https://temp.mleiter.now.sh/"

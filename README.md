@@ -12,4 +12,3 @@ yarn
 yarn dev
 ```
 
-Automatic deployments are made with now.sh

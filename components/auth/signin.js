@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Router from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -38,8 +39,12 @@ export default function SignIn() {
 
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [error, setError] = React.useState("");
 
-  const signIn = () => {
+  const signIn = async (e) => {
+
+    e.preventDefault();
+
     const body = {
       username,
       password
@@ -50,11 +55,23 @@ export default function SignIn() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
     };
-    fetch('/api/signin', requestOptions)
-        .then(response => response.json())
-        .then(data => console.log(data));
 
-    localStorage.setItem("vinder-auth", JSON.stringify(true));
+    console.log(requestOptions)
+
+    await fetch('/api/signin', requestOptions)
+        .then(async response => {
+          const json = await response.json()
+          console.log(json.body)
+          if (json.body && json.body.Error) {
+            setError(json.body.Error)
+            return
+          } else {
+             localStorage.setItem("vinder-auth", JSON.stringify(true));
+             localStorage.setItem("vinder-name", JSON.stringify(json.body.name));
+             localStorage.setItem("vinder-username", JSON.stringify(json.body.username));
+             Router.push('/')
+          }
+        })
   }
 
   return (
@@ -67,6 +84,7 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
+        <h4>{error}</h4>
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"

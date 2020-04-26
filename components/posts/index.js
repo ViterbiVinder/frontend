@@ -24,29 +24,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+export default function Posts() {
   const classes = useStyles();
-
-  const [username, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
-
-  const signIn = () => {
-    const body = {
-      username,
-      password
-    }
-
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    };
-    fetch('/api/signin', requestOptions)
-        .then(response => response.json())
-        .then(data => console.log(data));
-
-    localStorage.setItem("vinder-auth", JSON.stringify(true));
-  }
 
   return (
     <Container component="main" maxWidth="xs">
