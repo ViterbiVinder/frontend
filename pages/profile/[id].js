@@ -3,7 +3,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import clsx from "clsx";
-import withAuth from "../../utils/withAuth";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -18,6 +17,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import Post from "../../components/posts/post";
 
@@ -100,7 +100,19 @@ const personalViewStyles = makeStyles((theme) => ({
 }));
 
 const ProfileView = ({ posts, profile }) => {
-  console.log(posts, profile);
+  const classes = personalViewStyles();
+
+  if (!posts && !profile) {
+    return (
+      <div className={classes.root}>
+        <main
+          style={{ margin: "0 auto", transform: "scale(2)", marginTop: 50 }}
+        >
+          <CircularProgress color="primary" />
+        </main>
+      </div>
+    );
+  }
   const {
     name = "Max Leiter",
     username = "maxattack",
@@ -108,21 +120,8 @@ const ProfileView = ({ posts, profile }) => {
     avatar,
   } = profile.body;
 
-  const classes = personalViewStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  if (!posts.length) {
-    return (
-      <div className={classes.root}>
-        <main className={classes.content}>
-          <div className={classes.appBarSpacer} />
-          <Container maxWidth="lg" className={classes.container}>
-            No posts yet!
-          </Container>
-        </main>
-      </div>
-    );
-  }
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -146,6 +145,7 @@ const ProfileView = ({ posts, profile }) => {
               <Paper className={fixedHeightPaper}>
                 <Avatar
                   style={{ width: 100, height: 100, alignSelf: "center" }}
+                  src={avatar}
                 ></Avatar>
                 <Typography variant="h6" style={{ margin: "0 auto" }}>
                   {name}
@@ -154,6 +154,7 @@ const ProfileView = ({ posts, profile }) => {
             </Grid>
             <Grid item xs={12}>
               <Paper className={classes.paper}>
+                {!posts.length && "You haven't posted yet!"}
                 {posts.map((e) => (
                   <Post
                     key={e.id}
@@ -172,7 +173,8 @@ const ProfileView = ({ posts, profile }) => {
   );
 };
 
-export async function getStaticProps({ params }) {
+// This gets called on every request
+export async function getServerSideProps({ params }) {
   const res = await fetch(
     `${DEPLOYMENT}api/posts_by_user?username=${params.id}`
   );
@@ -182,36 +184,18 @@ export async function getStaticProps({ params }) {
   if (!data.body) {
     posts = [];
   } else {
-    posts = data.body.posts;
+    posts =
+      data.body.posts && data.body.posts.length
+        ? data.body.posts.reverse()
+        : data.body.posts;
   }
 
   const profileRes = await fetch(
-    `${DEPLOYMENT}api/profile?username=${params.id}`
+    `${DEPLOYMENT}api/profile?username=${params.id}&_now_no_cache=1`
   );
 
   const profile = await profileRes.json();
   return { props: { posts, profile } };
 }
 
-export async function getStaticPaths() {
-  const res = await fetch(`${DEPLOYMENT}api/users`);
-  const data = await res.json();
-  let paths = [];
-
-  if (!data.body) {
-    return {
-      paths: [],
-      fallback: true,
-    };
-  }
-  for (let i = 0; i < 10; i++) {
-    paths.push({ params: { id: data.body.users[i].username } });
-  }
-
-  return {
-    paths,
-    fallback: false, // See the "fallback" section below
-  };
-}
-
-export default withAuth(Profile);
+export default Profile;

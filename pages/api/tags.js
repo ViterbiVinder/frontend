@@ -2,9 +2,15 @@ import { API } from "../../components/constants";
 import axios from "axios";
 
 module.exports = async (req, res) => {
+  let url = `${API}Tags`;
+
+  if (req.query.name || req.body.name) {
+    url += `?name=${req.query.name}`;
+  }
+
   const requestOptions = {
     method: "GET",
-    url: API + `Tags?name=${req.query.name}`,
+    url: url,
     headers: { "Content-Type": "application/json" },
   };
 

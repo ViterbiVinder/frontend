@@ -6,13 +6,12 @@ module.exports = async (req, res) => {
     method: "POST",
     url:
       API +
-      `Auth?username=${req.body.username}&password=${req.body.password}&email=${req.body.email}&bio=${req.body.bio}&name=${req.body.name}&avatar=test`,
+      `Auth?username=${req.body.username}&password=${req.body.password}&email=${req.body.email}&bio=${req.body.bio}&name=${req.body.name}&avatar=${req.body.avatar}`,
     headers: { "Content-Type": "application/json" },
     data: req.body,
   };
 
   await axios(requestOptions).then((response) => {
-    console.log(response.data);
     return res.json({
       body: response.data,
     });

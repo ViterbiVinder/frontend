@@ -63,7 +63,7 @@ function ResponsiveDrawer({ isAuthenticated }) {
   let categories, links, icons;
   if (isAuthenticated) {
     categories = ["Posts", "Tags", "Profile", "Sign out"];
-    links = ["/posts", "/tags", "/profile", "/signout"];
+    links = ["/posts", "/tags", `/profile/[id]`, "/signout"];
     icons = [
       <NoteIcon />,
       <span
@@ -109,16 +109,33 @@ function ResponsiveDrawer({ isAuthenticated }) {
   const drawer = (
     <div>
       <List>
-        {categories.map((text, index) => (
-          <Link href={links[index]}>
-            <ListItem style={{ color: "white" }} button key={text}>
-              <ListItemIcon style={{ color: "#FFCC00" }}>
-                {icons[index]}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          </Link>
-        ))}
+        {categories.map((text, index) =>
+          text !== "Profile" ? (
+            <Link href={links[index]} key={text}>
+              <ListItem style={{ color: "white" }} button>
+                <ListItemIcon style={{ color: "#FFCC00" }}>
+                  {icons[index]}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            </Link>
+          ) : (
+            <Link
+              href={links[index]}
+              as={`/profile/${JSON.parse(
+                localStorage.getItem("vinder-username")
+              )}`}
+              key={text}
+            >
+              <ListItem style={{ color: "white" }} button>
+                <ListItemIcon style={{ color: "#FFCC00" }}>
+                  {icons[index]}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            </Link>
+          )
+        )}
         {isAuthenticated && (
           <ListItem style={{ color: "white" }} button>
             <ListItemIcon style={{ color: "#FFCC00" }}>

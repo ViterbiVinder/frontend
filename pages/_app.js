@@ -5,7 +5,6 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../components/theme";
 import Drawer from "../components/drawer";
-import withAuth from "../utils/withAuth";
 
 class MyApp extends App {
   componentDidMount() {
@@ -17,7 +16,7 @@ class MyApp extends App {
   }
 
   render() {
-    const { Component, pageProps, isAuthenticated } = this.props;
+    const { Component, pageProps } = this.props;
     return (
       <React.Fragment>
         <Head>
@@ -29,7 +28,13 @@ class MyApp extends App {
         </Head>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Drawer isAuthenticated={isAuthenticated} />
+          <Drawer
+            isAuthenticated={
+              process.browser && localStorage.getItem("vinder-username")
+                ? !!JSON.parse(localStorage.getItem("vinder-username"))
+                : false
+            }
+          />
           <Component {...pageProps} />
         </ThemeProvider>
       </React.Fragment>
@@ -37,4 +42,4 @@ class MyApp extends App {
   }
 }
 
-export default withAuth(MyApp);
+export default MyApp;

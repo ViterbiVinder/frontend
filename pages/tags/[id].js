@@ -38,7 +38,6 @@ export default function Tag({ posts }) {
       </Container>
     );
   }
-  const postObjs = posts.body.posts;
   if (posts.body.Error) {
     return (
       <Container component="main" maxWidth="xs">
@@ -50,6 +49,7 @@ export default function Tag({ posts }) {
     );
   }
 
+  const postObjs = posts.body.posts.reverse();
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -59,7 +59,7 @@ export default function Tag({ posts }) {
           {router.query.id}
         </Button>
       </Typography>
-      {postObjs.map((e) => (
+      {postObjs.reverse().map((e) => (
         <PostComp
           key={e.id}
           date={e.date}
@@ -74,7 +74,9 @@ export default function Tag({ posts }) {
 
 // This gets called on every request
 export async function getServerSideProps({ params }) {
-  const res = await fetch(`${DEPLOYMENT}api/tags?name=${params.id}`);
+  const res = await fetch(
+    `${DEPLOYMENT}api/tags?name=${params.id}&_now_no_cache=1`
+  );
   const posts = await res.json();
 
   return { props: { posts } };

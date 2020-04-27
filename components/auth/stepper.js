@@ -31,10 +31,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function getSteps() {
-  return ["Provide account information", "Spice up your profile"];
-}
-
 export default function VerticalLinearStepper() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -45,10 +41,9 @@ export default function VerticalLinearStepper() {
   const [avatar, setAvatar] = React.useState("");
   const [name, setName] = React.useState("");
   const [password, setPassword] = React.useState("");
-
   const [error, setError] = React.useState("");
 
-  const steps = getSteps();
+  const steps = ["Provide account information", "Spice up your profile"];
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => {
@@ -70,7 +65,6 @@ export default function VerticalLinearStepper() {
     setActiveStep(0);
   };
 
-  // TODO: AVATAR
   const getStepContent = (step) => {
     switch (step) {
       case 0:
@@ -143,6 +137,17 @@ export default function VerticalLinearStepper() {
               type="text"
               id="bio"
             />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              name="avatar"
+              label="Direct link to avatar"
+              onChange={(e) => setAvatar(e.target.value)}
+              value={avatar}
+              type="text"
+              id="avatar"
+            />
           </React.Fragment>
         );
       default:
@@ -180,6 +185,10 @@ export default function VerticalLinearStepper() {
       return;
     }
 
+    if (avatar.length === 0) {
+      avatar = `https://picsum.photos/seed/${username}/200/200`;
+    }
+
     const body = {
       name,
       username,
@@ -199,12 +208,8 @@ export default function VerticalLinearStepper() {
       fetch("/api/signup", requestOptions)
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
           if (data.body.Error) {
             setError(data.body.error);
-            return;
-          } else {
-            setError("");
             return;
           }
         });

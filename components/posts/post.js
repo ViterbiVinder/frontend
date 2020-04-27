@@ -41,6 +41,7 @@ export default function Post({
   date = "Today",
   text = "temp text",
   tags = [],
+  avatar = "",
 }) {
   const classes = useStyles();
 
@@ -49,8 +50,14 @@ export default function Post({
       <Card className={classes.root}>
         <CardHeader
           className={classes.header}
-          avatar={<Avatar aria-label="user" className={classes.avatar} />}
-          title={<Link href={`/profile/${name}`}>{name}</Link>}
+          avatar={
+            <Avatar aria-label="user" src={avatar} className={classes.avatar} />
+          }
+          title={
+            <Link href={`/profile/[id]`} as={`/profile/${name}`}>
+              {name}
+            </Link>
+          }
           subheader={date}
         />
         <CardContent>
@@ -59,7 +66,7 @@ export default function Post({
         <CardActions disableSpacing>
           <CardContent className={classes.tags}>
             {tags.map((e) => (
-              <Link href={`/tags/${e}`}>
+              <Link href={`/tags/[id]`} as={`/tags/${e}`}>
                 <Button key={e}> {e} </Button>
               </Link>
             ))}

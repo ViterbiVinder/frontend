@@ -9,7 +9,7 @@ import { DEPLOYMENT } from "../../components/constants";
 const PostsPage = ({ posts, error }) => {
   if (!posts) {
     return (
-      <Container style={{ display: "flex", alignSelf: "center" }}>
+      <Container style={{ left: "45%", position: "relative" }}>
         <h3>🤔</h3> <h4>There's no posts right now.</h4>
       </Container>
     );
@@ -35,7 +35,7 @@ const PostsPage = ({ posts, error }) => {
 
 // This gets called on every request
 export async function getServerSideProps({ params }) {
-  const res = await fetch(`${DEPLOYMENT}api/posts`);
+  const res = await fetch(`${DEPLOYMENT}api/posts?_now_no_cache=1`);
   const body = await res.json();
 
   if (body.error) {
