@@ -6,7 +6,11 @@ module.exports = async (req, res) => {
     method: "POST",
     url:
       API +
-      `Auth?username=${req.body.username}&password=${req.body.password}&email=${req.body.email}&bio=${req.body.bio}&name=${req.body.name}&avatar=${req.body.avatar}`,
+      `Auth?username=${encodeURI(req.body.username)}&password=${encodeURI(
+        req.body.password
+      )}&email=${req.body.email}&bio=${encodeURI(
+        req.body.bio
+      )}&name=${encodeURI(req.body.name)}&avatar=${encodeURI(req.body.avatar)}`,
     headers: { "Content-Type": "application/json" },
     data: req.body,
   };

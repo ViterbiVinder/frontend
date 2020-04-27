@@ -259,7 +259,7 @@ export default function VerticalLinearStepper() {
           <Typography>
             {error === "" && "Woot! You're all setup and ready to go! 🚀"}
           </Typography>
-          {!error && (
+          {error === "" && (
             <Link href="/signin">
               <Button className={classes.button}>Sign in</Button>
             </Link>

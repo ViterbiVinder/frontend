@@ -66,6 +66,7 @@ export default function Tag({ posts }) {
           name={e.AuthorName}
           text={e.Content}
           tags={e.tags}
+          avatar={e.Avatar}
         />
       ))}
     </Container>

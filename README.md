@@ -1,14 +1,11 @@
-# Vinder Front-end
+# Front-end Setup
 
-Built with nextjs and material-ui
+First, get NodeJS (JavaScript runtime) -
+Then, install yarn (JS package manager) -
+Finally, install the dependencies by running this command in the frontend/ folder: `yarn`
 
-New pages go in `/pages`, and the components the pages use belong in `components`
+If you run into any problems up until now, try Googling -- it's probably something with yoursystem, as everything we use is cross-platform and popular.
 
-## How to use
+Now, start the site -- `yarn dev`
 
-
-```sh
-yarn
-yarn dev
-```
-
+In `components/constants.js` you can modify the backend server URL and nextjs host to

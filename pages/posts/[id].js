@@ -45,6 +45,7 @@ export default function Post({ posts }) {
           name={e.AuthorName}
           text={e.Content}
           tags={e.Tags}
+          avatar={e.Avatar}
         />
       ))}
     </Container>

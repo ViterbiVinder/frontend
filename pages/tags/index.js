@@ -61,7 +61,9 @@ const TagsPage = () => {
           maxSize={35}
           tags={tags}
           renderer={customRenderer}
-          onClick={(tag) => Router.push(`/tags/${tag.value.toLowerCase()}`)}
+          onClick={(tag) =>
+            Router.push("/tags/[id]", `/tags/${tag.value.toLowerCase()}`)
+          }
         />
       </Grid>
     </Grid>

@@ -162,6 +162,7 @@ const ProfileView = ({ posts, profile }) => {
                     date={e.date}
                     text={e.Content}
                     tags={e.tags}
+                    avatar={e.Avatar}
                   />
                 ))}
               </Paper>
