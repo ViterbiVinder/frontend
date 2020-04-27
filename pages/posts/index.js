@@ -27,6 +27,7 @@ const PostsPage = ({ posts, error }) => {
           date={e.date}
           text={e.Content}
           tags={e.tags}
+          avatar={e.Avatar}
         />
       ))}
     </Container>
